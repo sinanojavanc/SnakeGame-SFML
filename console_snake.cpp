@@ -4,39 +4,80 @@
 using namespace std;
 int a;
 
+class Body {
+public:
+	pair<int, int> pos;
+	//char direction;
+
+	Body(pair<int, int> p) {
+		pos = p;
+	}
+};
+
 class Snake {
 public:
 	pair<int, int> pos;
 	char direction;
 	vector<Body*> bodyptr;
 
-	Snake(int x, int y) {
+	Snake(pair<int, int> head) {
 		direction = 'W';
-		pair<int, int> head;
-		head.first  = x;
-		head.second = y;
 		pos = head;
 	}	
 
-	void move() {
-		switch (direction)
-		{
-		default:
-			break;
+	void move(char dir) {
+		if (dir != ' ')
+			direction = dir;
+
+		pair<int, int> prev = pos;
+		pair<int, int> temp;
+
+		switch (direction) {
+		case 'W': pos.second -= 1; break;
+		case 'S': pos.second += 1; break;
+		case 'A': pos.first -= 1; break;
+		case 'D': pos.first += 1; break;
+		}
+
+		for (auto ptr : bodyptr) {
+			temp = ptr->pos;
+			ptr->pos = prev;
+			prev = temp;
+		}
+		a++;
+		grow(prev);
+	}
+
+	void grow(pair<int, int> prev) {
+		bodyptr.push_back(new Body(prev));
+	}
+
+	void printSnakePos() {
+		cout << "Head: " 
+			 << pos.first << " , " 
+			 << pos.second << endl;
+		int index = 0;
+		for (auto ptr : bodyptr) {
+			index++;
+			cout << "body[" << index << "]: " 
+				 << ptr->pos.first << " , " 
+				 << ptr->pos.second << endl;
 		}
 	}
 };
 
-class Body {
-public:
+int main() {
 	pair<int, int> pos;
-	char direction;
-
-	Body(pair<int, int> p, char dir) {
-		direction = dir;
-		pos = p;
+	pos.first = 0, pos.second = 0;
+	Snake snake(pos);
+	while (true) {
+		system("cls");
+		snake.move(' ');
+		snake.printSnakePos();
+		Sleep(3000);
 	}
-};
+	return 0;
+}
 
 //void ViewGame(vector<vector<int>> ground) {
 //	for (int y = 0; y < 15; y++) {
