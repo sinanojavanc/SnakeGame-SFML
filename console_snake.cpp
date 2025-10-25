@@ -21,11 +21,15 @@ public:
 	vector<Body*> bodyptr;
 
 	Snake(pair<int, int> head) {
-		direction = 'W';
+		direction = 'A';
 		pos = head;
 	}	
+	~Snake() {
+		for (auto ptr : bodyptr)
+			delete ptr;
+	}
 
-	void move(char dir) {
+	void move(vector<vector<int>>& ground, char dir) {
 		if (dir != ' ')
 			direction = dir;
 
@@ -38,12 +42,14 @@ public:
 		case 'A': pos.first -= 1; break;
 		case 'D': pos.first += 1; break;
 		}
+		ground[pos.second][pos.first] = 2;
 
 		for (auto ptr : bodyptr) {
 			temp = ptr->pos;
 			ptr->pos = prev;
 			prev = temp;
 		}
+		ground[prev.second][prev.first] = 0;
 		a++;
 		grow(prev);
 	}
@@ -66,59 +72,50 @@ public:
 	}
 };
 
+
+void ViewGame(vector<vector<int>> ground) {
+	for (int y = 0; y < 15; y++) {
+		for (int x = 0; x < 45; x++) {
+			switch (ground.at(y).at(x)) {
+			case 0:
+				cout << " ";
+				break;
+			case 1:
+				cout << "*";
+				break;
+			case 2:
+				cout << "O";
+				break;
+			case 3:
+				cout << "+";
+				break;
+			}
+		}
+		cout << endl;
+	}
+}
+
 int main() {
+	vector<vector<int>> ground(15, vector<int>(45, 0));
 	pair<int, int> pos;
-	pos.first = 0, pos.second = 0;
+	pos.first = 22, pos.second = 7;
 	Snake snake(pos);
+	for (int i = 1; i < 14; i++) {
+		ground[i][0] = 1;
+		ground[i][44] = 1;
+	}
+	ground[0] = vector<int>(45, 1);
+	ground[14] = vector<int>(45, 1);
+
 	while (true) {
 		system("cls");
-		snake.move(' ');
-		snake.printSnakePos();
-		Sleep(3000);
+		ViewGame(ground);
+
+		snake.move(ground,' ');
+
+		cout << a << endl;
+		a++;
+		Sleep(1000);
 	}
 	return 0;
 }
-
-//void ViewGame(vector<vector<int>> ground) {
-//	for (int y = 0; y < 15; y++) {
-//		for (int x = 0; x < 45; x++) {
-//			switch (ground.at(y).at(x)) {
-//			case 0:
-//				cout << " ";
-//				break;
-//			case 1:
-//				cout << "*";
-//				break;
-//			case 2:
-//				cout << "O";
-//				break;
-//			case 3:
-//				cout << "+";
-//				break;
-//			}
-//		}
-//		cout << endl;
-//	}
-//}
-//
-//int main() {
-//	vector<vector<int>> ground(15, vector<int>(45, 0));
-//	for (int i = 1; i < 14; i++) {
-//		ground[i][0] = 1;
-//		ground[i][44] = 1;
-//	}
-//	ground[0] = vector<int>(45, 1);
-//	ground[14] = vector<int>(45, 1);
-//
-//	while (true) {
-//		system("cls");
-//		ViewGame(ground);
-//
-//
-//
-//		cout << a << endl;
-//		a++;
-//		Sleep(1000);
-//	}
-//	return 0;
-//}
