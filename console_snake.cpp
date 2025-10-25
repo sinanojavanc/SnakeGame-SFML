@@ -7,7 +7,7 @@ int a;
 class Body {
 public:
 	pair<int, int> pos;
-	//char direction;
+	//char direction--;
 
 	Body(pair<int, int> p) {
 		pos = p;
