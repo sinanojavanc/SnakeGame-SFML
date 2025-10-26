@@ -165,16 +165,3 @@ int main() {
 	return 0;
 }
 
-
-
-//bool W = isKeyPressed('W');
-//bool A = isKeyPressed('A');
-//bool S = isKeyPressed('S');
-//bool D = isKeyPressed('D');
-//if (halfer) {
-//	if (W && !prevW) snake.move(ground, 'W');
-//	else if (A && !prevA) snake.move(ground, 'A');
-//	else if (S && !prevS) snake.move(ground, 'S');
-//	else if (D && !prevD) snake.move(ground, 'D');
-//	else snake.move(ground, ' ');
-//}
