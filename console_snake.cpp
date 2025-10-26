@@ -1,13 +1,11 @@
-#include <iostream>
+﻿#include <iostream>
 #include <Windows.h>
 #include <vector>
 using namespace std;
-int a;
 
 class Body {
 public:
 	pair<int, int> pos;
-	//char direction--;
 
 	Body(pair<int, int> p) {
 		pos = p;
@@ -43,14 +41,21 @@ public:
 		case 'D': pos.first += 1; break;
 		}
 		ground[pos.second][pos.first] = 2;
+		for (auto ptr : bodyptr) {
+			ground[ptr->pos.second][ptr->pos.first] = 2;
+		}
 
 		for (auto ptr : bodyptr) {
 			temp = ptr->pos;
 			ptr->pos = prev;
 			prev = temp;
 		}
-		ground[prev.second][prev.first] = 0;
-		a++;
+		pair<int, int> tailPos = prev;
+		if (!bodyptr.empty()) {
+			tailPos = prev; 
+		}
+		ground[tailPos.second][tailPos.first] = 0;
+		
 		grow(prev);
 	}
 
@@ -58,37 +63,17 @@ public:
 		bodyptr.push_back(new Body(prev));
 	}
 
-	void printSnakePos() {
-		cout << "Head: " 
-			 << pos.first << " , " 
-			 << pos.second << endl;
-		int index = 0;
-		for (auto ptr : bodyptr) {
-			index++;
-			cout << "body[" << index << "]: " 
-				 << ptr->pos.first << " , " 
-				 << ptr->pos.second << endl;
-		}
-	}
 };
 
 
-void ViewGame(vector<vector<int>> ground) {
+void ViewGame(const vector<vector<int>>& ground) {
 	for (int y = 0; y < 15; y++) {
 		for (int x = 0; x < 45; x++) {
 			switch (ground.at(y).at(x)) {
-			case 0:
-				cout << " ";
-				break;
-			case 1:
-				cout << "*";
-				break;
-			case 2:
-				cout << "O";
-				break;
-			case 3:
-				cout << "+";
-				break;
+			case 0: { cout << " "; break; }
+			case 1: { cout << "*"; break; }
+			case 2: { cout << "o"; break; }
+			case 3: { cout << "+"; break; }
 			}
 		}
 		cout << endl;
@@ -98,7 +83,7 @@ void ViewGame(vector<vector<int>> ground) {
 int main() {
 	vector<vector<int>> ground(15, vector<int>(45, 0));
 	pair<int, int> pos;
-	pos.first = 22, pos.second = 7;
+	pos.first = 30, pos.second = 7;
 	Snake snake(pos);
 	for (int i = 1; i < 14; i++) {
 		ground[i][0] = 1;
@@ -113,9 +98,7 @@ int main() {
 
 		snake.move(ground,' ');
 
-		cout << a << endl;
-		a++;
-		Sleep(1000);
+		Sleep(400);
 	}
 	return 0;
 }
