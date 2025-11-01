@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <Windows.h>
 #include <vector>
 #include <random>
@@ -123,10 +123,10 @@ void inputHandler(atomic<bool>& running,
 				  atomic<char>& dir)
 {
 	while (running) {
-		if		(isKeyPressed('W') && dir != 'S') { dir = 'W'; Sleep(300); }
-		else if (isKeyPressed('A') && dir != 'D') { dir = 'A'; Sleep(300); }
-		else if (isKeyPressed('S') && dir != 'W') { dir = 'S'; Sleep(300); }
-		else if (isKeyPressed('D') && dir != 'A') { dir = 'D'; Sleep(300); }
+		if		(isKeyPressed('W') && dir != 'S') { dir = 'W'; Sleep(200); }
+		else if (isKeyPressed('A') && dir != 'D') { dir = 'A'; Sleep(200); }
+		else if (isKeyPressed('S') && dir != 'W') { dir = 'S'; Sleep(200); }
+		else if (isKeyPressed('D') && dir != 'A') { dir = 'D'; Sleep(200); }
 		Sleep(10);
 	}
 }
@@ -156,7 +156,7 @@ int main() {
 		system("cls");
 		snake.move(ground, dir);
 		ViewGame(ground);
-		Sleep(300);
+		Sleep(200);
 		if (is_loose)
 			break;
 	}
