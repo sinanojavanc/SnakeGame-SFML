@@ -17,8 +17,7 @@ uniform_int_distribution<> distX(1, 28);
 
 pair<int, int> randomAppleMaker(vector<vector<int>>& ground) {
 	pair<int, int> apple;
-	do
-	{
+	do {
 		apple.first = distX(gen);
 		apple.second = distY(gen);
 	} while (ground[apple.second][apple.first] != 0);
